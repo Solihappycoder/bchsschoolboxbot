@@ -1,4 +1,4 @@
 -i https://pypi.org/simple
-discord.py[speed]==2.3.2
-requests==2.31.0
-rblxopencloud==1.6.0
+discord.py[speed]==2.3.2; python_version >= '3.8'
+requests==2.31.0; python_version >= '3.8'
+rblxopencloud==1.6.0; python_version >= '3.8'
