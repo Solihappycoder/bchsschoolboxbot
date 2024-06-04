@@ -6,6 +6,7 @@ from rblxopencloud import Experience
 import configparser
 
 config = configparser.ConfigParser()
+config.read('config.py')
 token = config.get('token')
 print(token)
 
