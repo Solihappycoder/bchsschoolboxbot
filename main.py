@@ -173,4 +173,4 @@ async def hello(interaction, presencetype: app_commands.Choice[int], presencetex
 
 
 
-client.run("MTIzNzI5NTE2OTUyNzg3NzY4Mg.GrmOU2.gQ3JflitwR2b1Qd50PNf4EajOdPWJ222SRwEOk")
+client.run("MTIzNzI5NTE2OTUyNzg3NzY4Mg.GYncB5.YINSyk-er-1EtaH2egCum1scLnBLY7a-5OPIDk")
