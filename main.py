@@ -3,7 +3,6 @@ from discord import app_commands
 import requests
 import random
 from rblxopencloud import Experience
-token = "MTIzNzI5NTE2OTUyNzg3NzY4Mg.GrmOU2.gQ3JflitwR2b1Qd50PNf4EajOdPWJ222SRwEOk"
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
@@ -174,4 +173,4 @@ async def hello(interaction, presencetype: app_commands.Choice[int], presencetex
 
 
 
-client.run(token)
+client.run("MTIzNzI5NTE2OTUyNzg3NzY4Mg.GrmOU2.gQ3JflitwR2b1Qd50PNf4EajOdPWJ222SRwEOk")
