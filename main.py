@@ -3,12 +3,7 @@ from discord import app_commands
 import requests
 import random
 from rblxopencloud import Experience
-import configparser
-
-config = configparser.ConfigParser()
-config.read('config.py')
-token = config.get('token')
-print(token)
+token = "MTIzNzI5NTE2OTUyNzg3NzY4Mg.GrmOU2.gQ3JflitwR2b1Qd50PNf4EajOdPWJ222SRwEOk"
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
