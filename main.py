@@ -4,8 +4,11 @@ import requests
 import random
 from rblxopencloud import Experience
 import os
+from dotenv import load_dotenv
 
-token = os.environ['TOKEN']
+load_dotenv()
+
+token = os.getenv("TOKEN")
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
