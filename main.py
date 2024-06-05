@@ -12,6 +12,8 @@ tree = app_commands.CommandTree(client)
 
 choices = ["sarahjharris", "juliarwilson", "val.9111", "westy3444"]
 
+print(token)
+
 @client.event
 async def on_ready():
     await tree.sync(guild=discord.Object(id=1198877667638923334))
