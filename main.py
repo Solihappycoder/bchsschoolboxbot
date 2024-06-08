@@ -178,6 +178,53 @@ async def hello(interaction, presencetype: app_commands.Choice[int], presencetex
     else:
         await interaction.response.send_message("You do not have the authorised role", ephemeral=True)
 
+@tree.command(name="generatesetmessages", description="Generates Set Messages for Session Hosts", guild=discord.Object(id=1198877667638923334))
+async def view_cmd(interaction):
+    r = requests.get('https://solidavisbchs.pythonanywhere.com/timetable')
+    data = r.json()
+    data1 = data["timetable"]
+    ## Years
+    data7 = data1["year7"]
+    data8 = data1["year8"]
+    data9 = data1["year9"]
+    data12 = data1["year12"]
+    ## Periods
+    p17 = data7["period_1"]
+    p27 = data7["period_2"]
+    p37 = data7["period_3"]
+    p18 = data8["period_1"]
+    p28 = data8["period_2"]
+    p38 = data8["period_3"]
+    p19 = data9["period_1"]
+    p29 = data9["period_2"]
+    p39 = data9["period_3"]
+    p112 = data12["period_1"]
+    p212 = data12["period_2"]
+    p312 = data12["period_3"]
+    
+    rr = requests.get('https://solidavisbchs.pythonanywhere.com/timetable/rooms')
+    datar = rr.json()
+    data1r = datar["rooms"]
+    ## Years
+    data7r = data1r["year7"]
+    data8r = data1r["year8"]
+    data9r = data1r["year9"]
+    data12r = data1r["year12"]
+    ## Periods
+    p17r = data7r["period_1"]
+    p27r = data7r["period_2"]
+    p37r = data7r["period_3"]
+    p18r = data8r["period_1"]
+    p28r = data8r["period_2"]
+    p38r = data8r["period_3"]
+    p19r = data9r["period_1"]
+    p29r = data9r["period_2"]
+    p39r = data9r["period_3"]
+    p112r = data12r["period_1"]
+    p212r = data12r["period_2"]
+    p312r = data12r["period_3"]
+
+    await interaction.response.send_message(f":setmessage HOMEROOM- Year 7 go to 2A- Year 8 go to 1A - Year 9 go to 1A- Year 12 go to 7A | :lesson\n:setmessage: PERIOD 1- Year 7: {p17} - {p17r} - Year 8: {p18} - {p18r} - Year 9: {p19} - {p19r} - Year 12: {p112} - {p112r} | :lesson\n:setmessage RECESS- Canteen is open | :music 11153244661\n:setmessage PERIOD 2 - Year 7: {p27} - {p27r} - Year 8: {p28} - {p28r} - Year 9: {p29} - {p29r} - Year 12: {p212} - {p212r}  | :lesson\n:setmessage LUNCH - Canteen is open | :music 11153244661\n:setmessage PERIOD 3-  Year 7: {p37} - {p37r} - Year 8: {p38} - {p38r} - Year 9: {p39} - {p39r} - Year 12 - {p312} - {p312r} | :lesson\n:setmessage END OF DAY - If you're not in our group join today as well as our communications server to keep updated | :music 11153244661")
 
 
 client.run(token)
