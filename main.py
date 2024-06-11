@@ -21,7 +21,7 @@ print(token)
 async def on_ready():
     await tree.sync(guild=discord.Object(id=1198877667638923334))
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="over the timetable"))
-    print("Soli!")
+    print("Ready!")
     
 @tree.command(name="canteenbalance", description="Check your canteen balance", guild=discord.Object(id=1198877667638923334))
 async def canteen(interaction):
@@ -229,5 +229,5 @@ async def generate_cmd(interaction):
         await interaction.response.send_message(f":setmessage HOMEROOM- Year 7 go to 2A- Year 8 go to 1A - Year 9 go to 1A- Year 12 go to 7A | :lesson\n:setmessage: PERIOD 1- Year 7: {p17} - {p17r} - Year 8: {p18} - {p18r} - Year 9: {p19} - {p19r} - Year 12: {p112} - {p112r} | :lesson\n:setmessage RECESS- Canteen is open | :music 11153244661\n:setmessage PERIOD 2 - Year 7: {p27} - {p27r} - Year 8: {p28} - {p28r} - Year 9: {p29} - {p29r} - Year 12: {p212} - {p212r}  | :lesson\n:setmessage LUNCH - Canteen is open | :music 11153244661\n:setmessage PERIOD 3-  Year 7: {p37} - {p37r} - Year 8: {p38} - {p38r} - Year 9: {p39} - {p39r} - Year 12 - {p312} - {p312r} | :lesson\n:setmessage END OF DAY - If you're not in our group join today as well as our communications server to keep updated | :music 11153244661")
     else:
         await interaction.response.send_message("You do not have the authorised role", ephemeral=True)
-
+        
 client.run(token)
