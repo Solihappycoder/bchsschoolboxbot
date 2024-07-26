@@ -178,6 +178,22 @@ async def hello(interaction, presencetype: app_commands.Choice[int], presencetex
     else:
         await interaction.response.send_message("You do not have the authorised role", ephemeral=True)
 
+@tree.command(name="updatelinkssite", description="Updates the campus beating", guild=discord.Object(id=1198877667638923334))
+@app_commands.choices(beatingstatus=[
+    app_commands.Choice(name='Beating (In Session)', value=1),
+    app_commands.Choice(name='Not Beating (Not in Session)', value=2)
+])
+async def updateslinks(interaction, beatingstatus: app_commands.Choice[int]):
+    role = discord.utils.get(interaction.guild.roles, name="SchoolboxAdmin")
+    if role in interaction.user.roles:
+        if beatingstatus.value == 1:
+            requests.put('https://scintillating-youth-production.up.railway.app/update/boolean', json={'value': True})
+        else:
+            requests.put('https://scintillating-youth-production.up.railway.app/update/boolean', json={'value': False})
+    else:
+        await interaction.response.send_message("You do not have the authorised role", ephemeral=True)
+            
+
 @tree.command(name="generatesetmessages", description="Generates Set Messages for Session Hosts", guild=discord.Object(id=1198877667638923334))
 async def generate_cmd(interaction):
     role = discord.utils.get(interaction.guild.roles, name="SchoolboxAdmin")
