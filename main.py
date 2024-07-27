@@ -13,9 +13,7 @@ intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 
-choices = ["sarahjharris", "juliarwilson", "val.9111", "westy3444"]
-
-print(token)
+choices = ["sarahjharris", "juliarwilson", "val.9111"]
 
 @client.event
 async def on_ready():
@@ -46,7 +44,7 @@ async def canteen(interaction):
     embed.add_field(name="Balance", value=f"${value}", inline=True)
     await interaction.response.send_message(embed=embed)
 
-@tree.command(name="updatetimetable", description="Update the timetable, for SLT and Site Managers only", guild=discord.Object(id=1198877667638923334))
+@tree.command(name="updatetimetable", description="Update the timetable", guild=discord.Object(id=1198877667638923334))
 async def update_cmd(interaction, year: str, period1: str, period2: str, period3: str):
     role = discord.utils.get(interaction.guild.roles, name="SchoolboxAdmin")
     if role in interaction.user.roles:
@@ -61,7 +59,8 @@ async def update_cmd(interaction, year: str, period1: str, period2: str, period3
         data = {'subject': period3}
         requests.put(url, json=data)
     else:
-        await interaction.response.send_message("You do not have the authorised role", ephemeral=True)
+        embed = discord.Embed(title="An error occured", description="Error 409 occured when trying to execute this command. `Error 409 = You don't have the correct permissions.`")
+        await interaction.response.send_message(Embed=embed, ephemeral=True)
 
 @tree.command(name="updaterooms", description="Update the timetable rooms", guild=discord.Object(id=1198877667638923334))
 async def update_cmd(interaction, year: str, period1: str, period2: str, period3: str):
@@ -78,7 +77,8 @@ async def update_cmd(interaction, year: str, period1: str, period2: str, period3
         data = {'subject': period3}
         requests.put(url, json=data)
     else:
-        await interaction.response.send_message("You do not have the authorised role", ephemeral=True)
+        embed = discord.Embed(title="An error occured", description="Error 409 occured when trying to execute this command. `Error 409 = You don't have the correct permissions.`")
+        await interaction.response.send_message(Embed=embed, ephemeral=True)
 
 @tree.command(name="updatenotices", description="Update the notices on schoolbox", guild=discord.Object(id=1198877667638923334))
 async def update_cmd(interaction, id: str, title: str, body: str, imageid: str):
@@ -95,7 +95,8 @@ async def update_cmd(interaction, id: str, title: str, body: str, imageid: str):
         data = {'title': imageid}
         requests.put(url, json=data)        
     else:
-        await interaction.response.send_message("You do not have the authorised role", ephemeral=True)
+        embed = discord.Embed(title="An error occured", description="Error 409 occured when trying to execute this command. `Error 409 = You don't have the correct permissions.`")
+        await interaction.response.send_message(Embed=embed, ephemeral=True)
 
 
 @tree.command(name="cleartimetable", description="Clears the timetable", guild=discord.Object(id=1198877667638923334))
@@ -113,7 +114,8 @@ async def clear_cmd(interaction, year: str):
         response = requests.put(url, json=data)
         await interaction.response.send_message(f"Cleared the timetable for year {year}", ephemeral=True)
     else:
-        await interaction.response.send_message("You do not have the authorised role", ephemeral=True)
+        embed = discord.Embed(title="An error occured", description="Error 409 occured when trying to execute this command. `Error 409 = You don't have the correct permissions.`")
+        await interaction.response.send_message(Embed=embed, ephemeral=True)
 
     
 
@@ -146,14 +148,13 @@ async def view_cmd(interaction):
     embed.add_field(name="Period 2", value=f"Year 7 - {p27}\nYear 8 - {p28}\nYear 9 - {p29}\nYear 12 - {p212}", inline=True)
     embed.add_field(name="Period 3", value=f"Year 7 - {p37}\nYear 8 - {p38}\nYear 9 - {p39}\nYear 12 - {p312}", inline=True)
     choice = random.choice(choices)
+
     if choice == "juliarwilson":
-        embed.set_footer(text="juliarwilson", icon_url="https://cdn.discordapp.com/avatars/1142551750923001956/6e3fcdc770a900f66ed182ed1a426799.webp?size=80")
+        embed.set_footer(text="Edited by juliarwilson", icon_url="https://cdn.discordapp.com/avatars/1142551750923001956/6e3fcdc770a900f66ed182ed1a426799.webp?size=80")
     elif choice == "sarahjharris":
         embed.set_footer(text="Edited by sarahjharris", icon_url="https://cdn.discordapp.com/avatars/755022149760188476/0b2c58364fc68ccf3d8050d6f8c75603.webp?size=80")
     elif choice == "val.9111":
         embed.set_footer(text="Edited by val.9111", icon_url="https://cdn.discordapp.com/avatars/728532835945676821/a_d5718328f828882da3191dceb87240fe.webp?size=80")
-    elif choice == "westy3444":
-        embed.set_footer(text="Edited by westy3444", icon_url="https://cdn.discordapp.com/avatars/1003810834201448549/88f808307b4fdd191d39ee65840c760b.webp?size=80")
 
     await interaction.response.send_message(embed=embed, ephemeral=True)
 
@@ -174,9 +175,10 @@ async def hello(interaction, presencetype: app_commands.Choice[int], presencetex
         elif presencetype.value == 3:
             yes = discord.ActivityType.listening
         await client.change_presence(activity=discord.Activity(type=yes, name=presencetext))
-        await interaction.response.send_message(f"Changed the Presence to {yes}", ephemeral=True)
+        await interaction.response.send_message(f"Changed the Presence to {presencetype} {yes}", ephemeral=True)
     else:
-        await interaction.response.send_message("You do not have the authorised role", ephemeral=True)
+        embed = discord.Embed(title="An error occured", description="Error 409 occured when trying to execute this command. `Error 409 = You don't have the correct permissions.`")
+        await interaction.response.send_message(Embed=embed, ephemeral=True)
 
 @tree.command(name="updatelinkssite", description="Updates the campus beating", guild=discord.Object(id=1198877667638923334))
 @app_commands.choices(beatingstatus=[
@@ -191,8 +193,8 @@ async def updateslinks(interaction, beatingstatus: app_commands.Choice[int]):
         else:
             requests.put('https://scintillating-youth-production.up.railway.app/update/boolean', json={'value': False})
     else:
-        await interaction.response.send_message("You do not have the authorised role", ephemeral=True)
-            
+        embed = discord.Embed(title="An error occured", description="Error 409 occured when trying to execute this command. `Error 409 = You don't have the correct permissions.`")
+        await interaction.response.send_message(Embed=embed, ephemeral=True)            
 
 @tree.command(name="generatesetmessages", description="Generates Set Messages for Session Hosts", guild=discord.Object(id=1198877667638923334))
 async def generate_cmd(interaction):
@@ -242,8 +244,9 @@ async def generate_cmd(interaction):
     p312r = data12r["period_3"]
 
     if role in interaction.user.roles:
-        await interaction.response.send_message(f":setmessage HOMEROOM- Year 7 go to 2A- Year 8 go to 1A - Year 9 go to 1A- Year 12 go to 7A | :lesson\n:setmessage PERIOD 1- Year 7: {p17} - {p17r} - Year 8: {p18} - {p18r} - Year 9: {p19} - {p19r} - Year 12: {p112} - {p112r} | :lesson\n:setmessage RECESS- Canteen is open | :music 11153244661\n:setmessage PERIOD 2 - Year 7: {p27} - {p27r} - Year 8: {p28} - {p28r} - Year 9: {p29} - {p29r} - Year 12: {p212} - {p212r}  | :lesson\n:setmessage LUNCH - Canteen is open | :music 11153244661\n:setmessage PERIOD 3-  Year 7: {p37} - {p37r} - Year 8: {p38} - {p38r} - Year 9: {p39} - {p39r} - Year 12 - {p312} - {p312r} | :lesson\n:setmessage END OF DAY - If you're not in our group join today as well as our communications server to keep updated | :music 11153244661")
+        await interaction.response.send_message(f":setmessage HOMEROOM - Year 7 go to 2A - Year 8 go to 1A - Year 9 go to 1A - Year 12 go to 7A | :lesson\n:setmessage PERIOD 1- Year 7: {p17} - {p17r} - Year 8: {p18} - {p18r} - Year 9: {p19} - {p19r} - Year 12: {p112} - {p112r} | :lesson\n:setmessage RECESS- Canteen is open | :music 11153244661\n:setmessage PERIOD 2 - Year 7: {p27} - {p27r} - Year 8: {p28} - {p28r} - Year 9: {p29} - {p29r} - Year 12: {p212} - {p212r}  | :lesson\n:setmessage LUNCH - Canteen is open | :music 11153244661\n:setmessage PERIOD 3-  Year 7: {p37} - {p37r} - Year 8: {p38} - {p38r} - Year 9: {p39} - {p39r} - Year 12 - {p312} - {p312r} | :lesson\n:setmessage END OF DAY - If you're not in our group join today as well as our communications server to keep updated | :music 11153244661")
     else:
-        await interaction.response.send_message("You do not have the authorised role", ephemeral=True)
+        embed = discord.Embed(title="An error occured", description="Error 409 occured when trying to execute this command. `Error 409 = You don't have the correct permissions.`")
+        await interaction.response.send_message(Embed=embed, ephemeral=True)
         
 client.run(token)
