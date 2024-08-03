@@ -198,33 +198,52 @@ async def updateslinks(interaction, beatingstatus: app_commands.Choice[int]):
         embed = discord.Embed(title="An error occured", description="Error 409 occured when trying to execute this command. `Error 409 = You don't have the correct permissions.`")
         await interaction.response.send_message(Embed=embed, ephemeral=True)            
 
-class RequestView(discord.ui.View):
+class RequestView(View):
     def __init__(self, user: discord.User, date: str, linemanager: discord.User):
         super().__init__()
         self.user = user
+        self.date = date
+        self.linemanager = linemanager
 
     @discord.ui.button(label="Approve", style=discord.ButtonStyle.green, custom_id="approve_button")
     async def approve_button(self, button: Button, interaction: discord.Interaction):
-        embed = discord.Embed(
+        # Create an embed for the user
+        user_embed = discord.Embed(
             title="Request Approved",
             description=f"Hello {self.user.mention},\n\nYour request has been approved.",
             color=discord.Color.green()
         )
 
-        usertosend = client.get_member(444660512983089156)
-        embed1 = discord.Embed(title = "LOA Request Approved", description=f"Username: {interaction.user} ({interaction.user.id})\nDate: {date}\n Line Manager: {linemanager.name} ({linemanager.id})\n Please press the buttons below to approve or decline this request")
-        await client.send_message(usertosend, embed=embed1)
-        await self.user.send(embed=embed)
-        await interaction.response.send_message("Request approved and message sent to the user!", ephemeral=True)
+        linemanager_embed = discord.Embed(
+            title="LOA Request Approved",
+            description=(
+                f"Username: {interaction.user} ({interaction.user.id})\n"
+                f"Date: {self.date}\n"
+                f"Line Manager: {self.linemanager.name} ({self.linemanager.id})\n"
+                "Please press the buttons below to approve or decline this request."
+            ),
+            color=discord.Color.blue()
+        )
+        
+        try:
+            usertosend = client.get_member(444660512983089156)
+            await client.send_message(usertosend, embed=linemanager_embed)
+        except discord.Forbidden:
+            await interaction.response.send_message("I can't send a DM to the line manager. They might have DMs disabled.", ephemeral=True)
+            return
+
+        # Send approval message to the original user
+        await self.user.send(embed=user_embed)
+        await interaction.response.send_message("Request approved and message sent to the user and line manager!", ephemeral=True)
 
     @discord.ui.button(label="Deny", style=discord.ButtonStyle.red, custom_id="deny_button")
     async def deny_button(self, button: Button, interaction: discord.Interaction):
-        embed = discord.Embed(
-            title="Request Denided",
-            description=f"Hello {self.user.mention},\n\nUnfortunately, Your request has been Denined.",
+        deny_embed = discord.Embed(
+            title="Request Denied",
+            description=f"Hello {self.user.mention},\n\nUnfortunately, your request has been denied.",
             color=discord.Color.red()
         )
-        await self.user.send(embed = embed)
+        await self.user.send(embed=deny_embed)
         await interaction.response.send_message("Request denied!", ephemeral=True)
         
 @tree.command(name="loa-request", description="Sends in a LOA Request", guild=discord.Object(id=1198877667638923334))
