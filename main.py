@@ -232,7 +232,7 @@ async def loarequest(interaction, date: str, reason: str, linemanager: discord.U
     view = RequestView(user = interaction.user, linemanager = linemanager, date = date)
     channel = client.get_channel(1246366616435032136)
     embed = discord.Embed(title = "LOA Request Received", description=f"Username: {interaction.user} ({interaction.user.id})\nReason: {reason}\nDate: {date}\n Line Manager: {linemanager.name} ({linemanager.id})\n Please press the buttons below to approve or decline this request")
-    channel.send(f"{linemanager.mention}, received from {interaction.user}", embed=embed, view=view)
+    await channel.send(f"{linemanager.mention}, received from {interaction.user}", embed=embed, view=view)
     await interaction.response.send_message("Sent the LOA Request to your Line Manager", ephemeral=True)
     
 @tree.command(name="generatesetmessages", description="Generates Set Messages for Session Hosts", guild=discord.Object(id=1198877667638923334))
