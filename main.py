@@ -227,6 +227,7 @@ class RequestView(View):
         await soli.send(embed=linemanager_embed)        
 
         await self.user.send(embed=user_embed)
+        await interaction.message.edit(view=None)
 
     @discord.ui.button(label="Deny", style=discord.ButtonStyle.red, custom_id="deny_button")
     async def deny_button(self, button: Button, interaction: discord.Interaction):
@@ -237,6 +238,7 @@ class RequestView(View):
         )
         await self.user.send(embed=deny_embed)
         await interaction.response.send_message("Request denied!", ephemeral=True)
+        await interaction.message.edit(view=None)
 
 @tree.command(name="loa-request", description="Sends in a LOA Request", guild=discord.Object(id=1198877667638923334))
 async def loarequest(interaction, date: str, reason: str, linemanager: discord.User):
