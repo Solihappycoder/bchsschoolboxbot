@@ -210,8 +210,8 @@ class RequestView(discord.ui.View):
         )
 
         usertosend = client.get_user(579990665606332427)
-        embed = discord.Embed(title = "LOA Request Approved", description=f"Username: {interaction.author} ({interaction.author.id})\nDate: {date}\n Line Manager: {linemanager.name} ({linemanager.id})\n Please press the buttons below to approve or decline this request")
-        await usertosend.send()
+        embed1 = discord.Embed(title = "LOA Request Approved", description=f"Username: {interaction.user} ({interaction.user.id})\nDate: {date}\n Line Manager: {linemanager.name} ({linemanager.id})\n Please press the buttons below to approve or decline this request")
+        await usertosend.send(embed=embed1)
 
         await self.user.send(embed=embed)
         
@@ -229,10 +229,10 @@ class RequestView(discord.ui.View):
         
 @tree.command(name="loa-request", description="Sends in a LOA Request", guild=discord.Object(id=1198877667638923334))
 async def loarequest(interaction, date: str, reason: str, linemanager: discord.User):
-    view = RequestView(user = interaction.author, linemanager = linemanager, date = date)
+    view = RequestView(user = interaction.user, linemanager = linemanager, date = date)
     channel = client.get_channel(1246366616435032136)
-    embed = discord.Embed(title = "LOA Request Received", description=f"Username: {interaction.author} ({interaction.author.id})\nDate: {date}\n Line Manager: {linemanager.name} ({linemanager.id})\n Please press the buttons below to approve or decline this request")
-    channel.send(f"{linemanager.mention}, received from {interaction.author}", embed=embed, view=view)
+    embed = discord.Embed(title = "LOA Request Received", description=f"Username: {interaction.user} ({interaction.user.id})\nReason: {reason}\nDate: {date}\n Line Manager: {linemanager.name} ({linemanager.id})\n Please press the buttons below to approve or decline this request")
+    channel.send(f"{linemanager.mention}, received from {interaction.user}", embed=embed, view=view)
     await interaction.response.send_message("Sent the LOA Request to your Line Manager", ephemeral=True)
     
 @tree.command(name="generatesetmessages", description="Generates Set Messages for Session Hosts", guild=discord.Object(id=1198877667638923334))
