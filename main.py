@@ -211,12 +211,10 @@ class RequestView(discord.ui.View):
             color=discord.Color.green()
         )
 
-        usertosend = client.get_user(579990665606332427)
+        usertosend = await client.get_user_info("579990665606332427")
         embed1 = discord.Embed(title = "LOA Request Approved", description=f"Username: {interaction.user} ({interaction.user.id})\nDate: {date}\n Line Manager: {linemanager.name} ({linemanager.id})\n Please press the buttons below to approve or decline this request")
         await usertosend.send(embed=embed1)
-
         await self.user.send(embed=embed)
-        
         await interaction.response.send_message("Request approved and message sent to the user!", ephemeral=True)
 
     @discord.ui.button(label="Deny", style=discord.ButtonStyle.red, custom_id="deny_button")
