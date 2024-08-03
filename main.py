@@ -228,9 +228,6 @@ class RequestView(discord.ui.View):
         await interaction.response.send_message("Request denied!", ephemeral=True)
         
 @tree.command(name="loa-request", description="Sends in a LOA Request", guild=discord.Object(id=1198877667638923334))
-@app_commands.description(date = "The Date of your Absence, in a format of 1st of August 2024")
-@app_commands.description(reason = "The Reason of your Absence")
-@app_commands.description(linemanager = "Your Line Manager")
 async def loarequest(interaction, date: int, reason: int, linemanager: discord.User):
     view = RequestView(user = interaction.author, linemanager = linemanager, date = date)
     channel = client.get_channel(1246366616435032136)
