@@ -207,7 +207,7 @@ class RequestView(discord.ui.View):
     async def approve_button(self, button: Button, interaction: discord.Interaction):
         embed = discord.Embed(
             title="Request Approved",
-            description=f"Hello {self.user.mention},\n\nYour request has been approved.\n\nThanks, {linemanager.name}",
+            description=f"Hello {self.user.mention},\n\nYour request has been approved.",
             color=discord.Color.green()
         )
 
@@ -221,7 +221,7 @@ class RequestView(discord.ui.View):
     async def deny_button(self, button: Button, interaction: discord.Interaction):
         embed = discord.Embed(
             title="Request Denided",
-            description=f"Hello {self.user.mention},\n\nUnfortunately, Your request has been Denined.\n\nThanks, {linemanager.name}",
+            description=f"Hello {self.user.mention},\n\nUnfortunately, Your request has been Denined.",
             color=discord.Color.red()
         )
         await self.user.send(embed = embed)
