@@ -205,7 +205,7 @@ class RequestView(View):
         self.date = date
         self.linemanager = linemanager
 
-    @discord.ui.button(label="Approve", style=discord.ButtonStyle.green, custom_id="approve_button")
+    @discord.ui.(label="Approve", style=discord.Style.green, custom_id="approve_button")
     async def approve_button(self, button: Button, interaction: discord.Interaction):
         user_embed = discord.Embed(
             title="Request Approved",
