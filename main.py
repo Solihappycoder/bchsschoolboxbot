@@ -207,7 +207,6 @@ class RequestView(View):
 
     @discord.ui.button(label="Approve", style=discord.ButtonStyle.green, custom_id="approve_button")
     async def approve_button(self, button: Button, interaction: discord.Interaction):
-        # Create an embed for the user
         user_embed = discord.Embed(
             title="Request Approved",
             description=f"Hello {self.user.mention},\n\nYour request has been approved.",
@@ -227,12 +226,11 @@ class RequestView(View):
         
         try:
             usertosend = client.get_member(444660512983089156)
-            await client.send_message(usertosend, embed=linemanager_embed)
+            await client.send_message(usertosend, embed=linemanager_embed)        
         except discord.Forbidden:
             await interaction.response.send_message("I can't send a DM to the line manager. They might have DMs disabled.", ephemeral=True)
             return
 
-        # Send approval message to the original user
         await self.user.send(embed=user_embed)
         await interaction.response.send_message("Request approved and message sent to the user and line manager!", ephemeral=True)
 
@@ -245,7 +243,6 @@ class RequestView(View):
         )
         await self.user.send(embed=deny_embed)
         await interaction.response.send_message("Request denied!", ephemeral=True)
-        
 @tree.command(name="loa-request", description="Sends in a LOA Request", guild=discord.Object(id=1198877667638923334))
 async def loarequest(interaction, date: str, reason: str, linemanager: discord.User):
     view = RequestView(user = interaction.user, linemanager = linemanager, date = date)
