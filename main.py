@@ -196,6 +196,48 @@ async def updateslinks(interaction, beatingstatus: app_commands.Choice[int]):
         embed = discord.Embed(title="An error occured", description="Error 409 occured when trying to execute this command. `Error 409 = You don't have the correct permissions.`")
         await interaction.response.send_message(Embed=embed, ephemeral=True)            
 
+class RequestView(discord.ui.View):
+    def __init__(self, user: discord.User, date: str, linemanager: discord.User):
+        super().__init__()
+        self.user = user
+
+    @discord.ui.button(label="Approve", style=discord.ButtonStyle.green, custom_id="approve_button")
+    async def approve_button(self, interaction: discord.Interaction):
+        embed = discord.Embed(
+            title="Request Approved",
+            description=f"Hello {self.user.mention},\n\nYour request has been approved.",
+            color=discord.Color.green()
+        )
+
+        usertosend = client.get_user(579990665606332427)
+        embed = discord.Embed(title = "LOA Request Approved", description=f"Username: {interaction.author} ({interaction.author.id})\nDate: {date}\n Line Manager: {linemanager.name} ({linemanager.id})\n Please press the buttons below to approve or decline this request")
+        await usertosend.send()
+
+        await self.user.send(embed=embed)
+        
+        await interaction.response.send_message("Request approved and message sent to the user!", ephemeral=True)
+
+    @discord.ui.button(label="Deny", style=discord.ButtonStyle.red, custom_id="deny_button")
+    async def deny_button(self, interaction: discord.Interaction):
+        embed = discord.Embed(
+            title="Request Denided",
+            description=f"Hello {self.user.mention},\n\nYour request has been Denined.",
+            color=discord.Color.red()
+        )
+        await self.user.send(embed = embed)
+        await interaction.response.send_message("Request denied!", ephemeral=True)
+        
+@tree.command(name="loa-request", description="Sends in a LOA Request", guild=discord.Object(id=1198877667638923334))
+@app_commands.description(date = "The Date of your Absence, in a format of 1st of August 2024")
+@app_commands.description(reason = "The Reason of your Absence")
+@app_commands.description(linemanager = "Your Line Manager")
+async def loarequest(interaction, date: int, reason: int, linemanager: discord.User):
+    view = RequestView(user = interaction.author, linemanager = linemanager, date = date)
+    channel = client.get_channel(1246366616435032136)
+    embed = discord.Embed(title = "LOA Request Received", description=f"Username: {interaction.author} ({interaction.author.id})\nDate: {date}\n Line Manager: {linemanager.name} ({linemanager.id})\n Please press the buttons below to approve or decline this request")
+    channel.send(f"{linemanager.mention}, received from {interaction.author}", embed=embed, view=view)
+    await interaction.response.send_message("Sent the LOA Request to your Line Manager", ephemeral=True)
+    
 @tree.command(name="generatesetmessages", description="Generates Set Messages for Session Hosts", guild=discord.Object(id=1198877667638923334))
 async def generate_cmd(interaction):
     role = discord.utils.get(interaction.guild.roles, name="SchoolboxAdmin")
