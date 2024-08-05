@@ -206,41 +206,43 @@ class RequestView(View):
         self.linemanager = linemanager
 
     @discord.ui.button(label="Approve", style=discord.ButtonStyle.green, custom_id="approve_button")
-    async def approve_button(self, button: Button, interaction: discord.Interaction):
+    async def approve_button(self, interaction: discord.Interaction, button: Button):
         user_embed = discord.Embed(
             title="Request Approved",
-            description=f"Hello {self.user.mention},\n\nYour request has been approved.",
+            description=f"Hello {self.user.mention},\n\nYour request has been approved.\n\n Thanks, \n {interaction.user.mention} \n {interaction.user.top_role}",
             color=discord.Color.green()
         )
 
         linemanager_embed = discord.Embed(
             title="LOA Request Approved",
             description=(
-                f"Username: {self.user} ({self.user.id})\n"
+                f"Username: {self.user.mention} ({self.user.id})\n"
                 f"Date: {self.date}\n"
-                f"Line Manager: {self.linemanager.name} ({self.linemanager.id})\n"
+                f"Line Manager: {self.linemanager.mention} ({self.linemanager.id})\n"
+                f"Approved by: {interaction.user.mention} ({interaction.user.id})\n"
             ),
-            color=discord.Color.blue()
+            color=discord.Color.green()
         )
 
         soli = await client.fetch_user("579990665606332427")
         await soli.send(embed=linemanager_embed)        
 
         await self.user.send(embed=user_embed)
-        await interaction.message.edit(view=None)
+        await interaction.message.edit(content= f"**APPROVED BY {interaction.user.mention}**", view=None)
 
     @discord.ui.button(label="Deny", style=discord.ButtonStyle.red, custom_id="deny_button")
-    async def deny_button(self, button: Button, interaction: discord.Interaction):
+    async def deny_button(self, interaction: discord.Interaction, button: Button):
         deny_embed = discord.Embed(
             title="Request Denied",
-            description=f"Hello {self.user.mention},\n\nUnfortunately, your request has been denied.",
+            description=f"Hello {self.user.mention},\n\nUnfortunately, your request has been denied.\n\n Sorry, \n {interaction.user.mention} \n {interaction.user.top_role}",
             color=discord.Color.red()
         )
         await self.user.send(embed=deny_embed)
         await interaction.response.send_message("Request denied!", ephemeral=True)
-        await interaction.message.edit(view=None)
+        await interaction.message.edit(content= f"**DENINED BY {interaction.user.mention}**",view=None)
 
 @tree.command(name="loa-request", description="Sends in a LOA Request", guild=discord.Object(id=1198877667638923334))
+@app_commands.describe(date='Must be formatted like this DD/MM/YYYY -> DD/MM/YYYY! Will be denided if not in that format')
 async def loarequest(interaction, date: str, reason: str, linemanager: discord.User):
     view = RequestView(user = interaction.user, linemanager = linemanager, date = date)
     channel = client.get_channel(1246366616435032136)
