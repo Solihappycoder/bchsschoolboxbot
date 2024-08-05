@@ -200,7 +200,7 @@ async def updateslinks(interaction, beatingstatus: app_commands.Choice[int]):
 
 class RequestView(View):
     def __init__(self, user: discord.User, date: str, linemanager: discord.User):
-        super().__init__()
+        super().__init__(timeout=None)
         self.user = user
         self.date = date
         self.linemanager = linemanager
@@ -244,7 +244,7 @@ class RequestView(View):
 @tree.command(name="loa-request", description="Sends in a LOA Request", guild=discord.Object(id=1198877667638923334))
 @app_commands.describe(date='Must be formatted like this DD/MM/YYYY -> DD/MM/YYYY! Will be denided if not in that format')
 async def loarequest(interaction, date: str, reason: str, linemanager: discord.User):
-    view = RequestView(user = interaction.user, linemanager = linemanager, date = date, timeout=None)
+    view = RequestView(user = interaction.user, linemanager = linemanager, date = date)
     channel = client.get_channel(1269940531723767849)
     embed = discord.Embed(title = "LOA Request Received", description=f"Username: {interaction.user} ({interaction.user.id})\nReason: {reason}\nDate: {date}\n Line Manager: {linemanager.name} ({linemanager.id})\n Please press the buttons below to approve or decline this request")
     await channel.send(f"{linemanager.mention}, received from {interaction.user}", embed=embed, view=view)
