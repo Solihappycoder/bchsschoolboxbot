@@ -245,7 +245,7 @@ class RequestView(View):
 @app_commands.describe(date='Must be formatted like this DD/MM/YYYY -> DD/MM/YYYY! Will be denided if not in that format')
 async def loarequest(interaction, date: str, reason: str, linemanager: discord.User):
     view = RequestView(user = interaction.user, linemanager = linemanager, date = date)
-    channel = client.get_channel(1246366616435032136)
+    channel = client.get_channel(1269940531723767849)
     embed = discord.Embed(title = "LOA Request Received", description=f"Username: {interaction.user} ({interaction.user.id})\nReason: {reason}\nDate: {date}\n Line Manager: {linemanager.name} ({linemanager.id})\n Please press the buttons below to approve or decline this request")
     await channel.send(f"{linemanager.mention}, received from {interaction.user}", embed=embed, view=view)
     await interaction.response.send_message("Sent the LOA Request to your Line Manager", ephemeral=True)
